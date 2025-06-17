@@ -63,20 +63,31 @@ namespace LINQDemo2
 
         // 4. Group products by brand
         // Show each brand and the list of product names under it.
-        public static void groupProductByBrand(List<Product> product, List<Brand> brand)
+        public static void GroupProductByBrand(List<Product> product, List<Brand> brand)
         {
             System.Console.WriteLine("Group products by brand");
-            var productByBrand = brand.Join(product,
+            var GetProductByBrand = brand.GroupJoin(product,
                 b => b.ID,
                 p => p.Brand,
-                (b, p) => new
+                (b, productGroup) => new
                 {
-                    brandName = b.Name,
-                    productName = p.Name,
+                    BrandName = b.Name,
+                    Products = productGroup.Select(p => p.Name).ToList(),
                 });
-            foreach (var item in productByBrand)
+            foreach (var group in GetProductByBrand)
             {
-                System.Console.WriteLine(productByBrand);
+                System.Console.WriteLine($"Brand: {group.BrandName}");
+                if (group.Products.Any())
+                {
+                    foreach (var productName in group.Products)
+                    {
+                        System.Console.WriteLine($"Product {productName}");
+                    }
+                }
+                else
+                {
+                    System.Console.WriteLine("(No Products)");
+                }
             }
         }
 
@@ -120,7 +131,7 @@ namespace LINQDemo2
             ShowProuctInPriceRange(products);
             GetProductsWithColorWhite(products);
             JoinProductWithBrand(products, brands);
-            groupProductByBrand(product, brand);
+            GroupProductByBrand(products, brands);
 
 
         }
