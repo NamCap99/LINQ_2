@@ -1,4 +1,8 @@
 ﻿using LINQDemo2;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace LINQDemo2
 {
@@ -8,6 +12,8 @@ namespace LINQDemo2
         {
             var brands = DataSeeder.GetBrands();
             var products = DataSeeder.GetProducts();
+
+            System.Console.WriteLine("Hello");
         }
     }
 }
