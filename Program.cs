@@ -93,9 +93,38 @@ namespace LINQDemo2
 
         // 5. Count how many products each brand has
         // Return: BrandName, ProductCount.
+        public static void CountProductsEachBrand(List<Product> product, List<Brand> brand)
+        {
+            Console.WriteLine("Count how many products each brand has");
+            var countProduct = brand.GroupJoin(product,
+                b => b.ID,
+                p => p.Brand,
+                (b, totalProductByBrand) => new
+                {
+                    BrandName = b.Name,
+                    ProductCount = totalProductByBrand.Count()
+                }
+                );
+
+            foreach (var group in countProduct)
+            {
+                Console.WriteLine($"Brand: {group.BrandName} has {group.ProductCount} product(s)");
+            }
+
+        }
 
         // 6. Find the most expensive product
         // Return full details of the product with the highest price.
+        public static void ExpensiveProduct(List<Product> product)
+        {
+            Console.WriteLine("Most expensive product");
+            decimal expensiveProduct = product.Max(p => p.Price).Take(1);
+
+            foreach(int p in expensiveProduct)
+            {
+                Console.WriteLine($"Product's info {p}");
+            }
+        }
 
         // 7. Sort products by price descending
         // Return: ProductName, Price, sorted highest to lowest.
@@ -128,12 +157,13 @@ namespace LINQDemo2
             var brands = DataSeeder.GetBrands();
             var products = DataSeeder.GetProducts();
 
-            ShowProuctInPriceRange(products);
-            GetProductsWithColorWhite(products);
-            JoinProductWithBrand(products, brands);
-            GroupProductByBrand(products, brands);
-
+            //ShowProuctInPriceRange(products);
+            //GetProductsWithColorWhite(products);
+            //JoinProductWithBrand(products, brands);
+            //GroupProductByBrand(products, brands);
+            //CountProductsEachBrand(products, brands);
+            ExpensiveProduct(products);
 
         }
-    }
+    }a
 }
